@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class FilmList extends Component {
     constructor(props) {
@@ -17,19 +18,21 @@ class FilmList extends Component {
 
     render() {
         const films = this.state.films.map((film) => (
-            <div key={film.id} className="film-list-item">
-                <h3>{film.title}</h3>
-                Director: {film.director}
-                <br />
-                Producer: {film.producer}
-                <br />
-                Release Date: {film.release_date}
-                <br />
-                Rating: {film.rt_score}
-                <br />
-                {film.description}
-                <hr />
-            </div>
+            <Link to={`/films/${film.id}`}>
+                <div key={film.id} className="film-list-item">
+                    <h3>{film.title}</h3>
+                    Director: {film.director}
+                    <br />
+                    Producer: {film.producer}
+                    <br />
+                    Release Date: {film.release_date}
+                    <br />
+                    Rating: {film.rt_score}
+                    <br />
+                    {film.description}
+                    <hr />
+                </div>
+            </Link>
         ));
 
         return films;
