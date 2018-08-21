@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from './Home';
-import Films from './Films';
-import People from './People';
-import FilmsDetails from './FilmsDetails';
-import PeopleDetails from './PeopleDetails';
+import Home from './Home/Home';
+import Films from './Films/Films';
+import People from './People/People';
+import FilmsDetails from './FilmsDetails/FilmsDetails';
+import PeopleDetails from './PeopleDetails/PeopleDetails';
 
 class App extends Component {
     render() {

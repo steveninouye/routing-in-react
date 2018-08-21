@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class PeopleList extends Component {
     constructor(props) {
@@ -37,19 +38,21 @@ class PeopleList extends Component {
 
     render() {
         const people = this.state.people.map((person) => (
-            <div key={person.id} className="person-list-item">
-                <h3>{person.name}</h3>
-                Gender: {person.gender}
-                <br />
-                Age: {person.age}
-                <br />
-                Eye Color: {person.eye_color}
-                <br />
-                Hair Color: {person.hair_color}
-                <br />
-                Films: <ul>{this.listFilmTitles(person)}</ul>
-                <hr />
-            </div>
+            <Link to={`/people/${person.id}`}>
+                <div key={person.id} className="person-list-item">
+                    <h3>{person.name}</h3>
+                    Gender: {person.gender}
+                    <br />
+                    Age: {person.age}
+                    <br />
+                    Eye Color: {person.eye_color}
+                    <br />
+                    Hair Color: {person.hair_color}
+                    <br />
+                    Films: <ul>{this.listFilmTitles(person)}</ul>
+                    <hr />
+                </div>
+            </Link>
         ));
 
         return people;
