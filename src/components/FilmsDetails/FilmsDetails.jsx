@@ -1,4 +1,7 @@
 import React, { Component, Fragment } from 'react';
+import 'isomorphic-fetch';
+import es6Promise from 'es6-promise';
+es6Promise.polyfill();
 
 class FilmDetails extends Component {
     constructor(props) {

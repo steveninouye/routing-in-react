@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import 'isomorphic-fetch';
+import es6Promise from 'es6-promise';
+es6Promise.polyfill();
 
 class FilmList extends Component {
     constructor(props) {
