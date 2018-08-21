@@ -44,6 +44,14 @@ class FilmDetails extends Component {
             });
     }
 
+    listFilms(films) {
+        return films.map((f, i) => (
+            <Link to={`/films/${f.id}`}>
+                <li key={i}>{f.title}</li>
+            </Link>
+        ));
+    }
+
     render() {
         if (!this.state.actor) {
             return <p>Loading...</p>;
@@ -68,13 +76,7 @@ class FilmDetails extends Component {
                         Species: {species.name}/{species.classification}
                     </h3>
                     <h3>Films:</h3>
-                    <ul>
-                        {films.map((f, i) => (
-                            <Link to={`/films/${f.id}`}>
-                                <li key={i}>{f.title}</li>
-                            </Link>
-                        ))}
-                    </ul>
+                    <ul>{this.listFilms(films)}</ul>
                 </Fragment>
             );
         }
