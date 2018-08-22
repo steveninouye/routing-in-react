@@ -15,39 +15,26 @@ class FilmDetails extends Component {
     async componentDidMount() {
         let { id } = this.props.match.params;
         const actorUrl = `https://ghibliapi.herokuapp.com/people/${id}`;
-        const response = await fetch(actorUrl);
-        const actor = await response.json();
-        const promises = [];
-        actor.films.forEach((film) => {
-            promises.push(fetch(film));
-        });
-        Promise.all(promises)
-            .then((res) => {
-                let cache = [];
-                res.forEach((r) => {
-                    cache.push(r.json());
-                });
-                return Promise.all(cache);
+        const actor = await fetch(actorUrl).then((res) => res.json());
+        const films = await Promise.all(
+            actor.films.map((film) => {
+                return fetch(film).then((res) => res.json());
             })
-            .then(async (filmsArr) => {
-                filmsArr.forEach((film, idx) => {
-                    let { id, title } = film;
-                    actor.films[idx] = { id, title };
-                });
-                const res = await fetch(actor.species);
-                const { name, classification } = await res.json();
-                actor.species = {
-                    name,
-                    classification
-                };
-                this.setState({ actor });
-            });
+        );
+        films.forEach(({ id, title }, idx) => {
+            actor.films[idx] = { id, title };
+        });
+        const { name, classification } = await fetch(actor.species).then(
+            (res) => res.json()
+        );
+        actor.species = { name, classification };
+        this.setState({ actor });
     }
 
     listFilms(films) {
-        return films.map((f, i) => (
-            <Link to={`/films/${f.id}`}>
-                <li key={i}>{f.title}</li>
+        return films.map((film, i) => (
+            <Link to={`/films/${film.id}`} key={i}>
+                <li>{film.title}</li>
             </Link>
         ));
     }

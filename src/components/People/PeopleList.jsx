@@ -15,21 +15,13 @@ class PeopleList extends Component {
 
     async componentDidMount() {
         const peopleUrl = 'https://ghibliapi.herokuapp.com/people';
-        const response = await fetch(peopleUrl);
-        const people = await response.json();
-        people.forEach((person, idx) => {
-            const promises = [];
-            person.films.forEach((film) => promises.push(fetch(film)));
-            Promise.all(promises)
-                .then((resArr) => {
-                    const cache = [];
-                    resArr.forEach((res) => cache.push(res.json()));
-                    return Promise.all(cache);
-                })
-                .then((film) => {
-                    people[idx].film_titles = film.map((e) => e.title);
-                    this.setState({ people });
-                });
+        const people = await fetch(peopleUrl).then((res) => res.json());
+        people.forEach(async (person, idx) => {
+            const films = await Promise.all(
+                person.films.map((film) => fetch(film).then((r) => r.json()))
+            );
+            people[idx].film_titles = films.map((e) => e.title);
+            this.setState({ people });
         });
     }
 
@@ -41,8 +33,8 @@ class PeopleList extends Component {
 
     render() {
         const people = this.state.people.map((person) => (
-            <Link to={`/people/${person.id}`}>
-                <div key={person.id} className="person-list-item">
+            <Link to={`/people/${person.id}`} key={person.id}>
+                <div className="person-list-item">
                     <h3>{person.name}</h3>
                     Gender: {person.gender}
                     <br />

@@ -21,7 +21,7 @@ class FilmList extends Component {
 
     render() {
         const films = this.state.films.map((film) => (
-            <Link to={`/films/${film.id}`}>
+            <Link to={`/films/${film.id}`} key={film.id}>
                 <div key={film.id} className="film-list-item">
                     <h3>{film.title}</h3>
                     Director: {film.director}
