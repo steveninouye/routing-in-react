@@ -16,14 +16,11 @@ class FilmDetails extends Component {
         let { id } = this.props.match.params;
         const actorUrl = `https://ghibliapi.herokuapp.com/people/${id}`;
         const actor = await fetch(actorUrl).then((res) => res.json());
-        const films = await Promise.all(
+        actor.films = await Promise.all(
             actor.films.map((film) => {
                 return fetch(film).then((res) => res.json());
             })
         );
-        films.forEach(({ id, title }, idx) => {
-            actor.films[idx] = { id, title };
-        });
         const { name, classification } = await fetch(actor.species).then(
             (res) => res.json()
         );
